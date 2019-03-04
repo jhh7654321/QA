@@ -70,7 +70,6 @@ class TestGundryMD:  # Must start with 'Test...'
         """
         First tests that the required fields are populated, then with valid inputs, checks if user is taken
         to the ftc page.
-        TODO: check for form validation
         """
         home_page = HomePage(driver=browser)
         ftc_page = FTCPage(driver=browser)
@@ -81,6 +80,41 @@ class TestGundryMD:  # Must start with 'Test...'
         assert not ftc_page.is_on_page()
         home_page.ftc_signup('Tester', 'tester@goldenhippo.com')
         assert ftc_page.is_on_page()
+
+    @pytestrail.case('C164')
+    def test_ftc_products_page(self, browser, app_config):
+        """
+        First tests that the required fields are populated, then with valid inputs, checks if user is taken
+        to the ftc page.
+        """
+        ftc_page = FTCPage(driver=browser)
+        ftc_page.go(app_config.base_url_gundrymd)
+        print(ftc_page.page_titles)
+        assert 'Here are our first time customer specials on Gundry MD' in ftc_page.page_titles
+        assert 'SUPPLEMENTS' in ftc_page.page_titles
+        assert 'Vital Reds' in ftc_page.page_titles
+        assert 'PrebioThrive' in ftc_page.page_titles
+        assert 'Total Restore' in ftc_page.page_titles
+        assert 'Lectin Shield' in ftc_page.page_titles
+        assert 'Proplant' in ftc_page.page_titles
+        assert 'Primal Plants' in ftc_page.page_titles
+        assert 'Heart Defense' in ftc_page.page_titles
+        assert 'E-Balance' in ftc_page.page_titles
+        assert 'Enhanced Circulation Formula' in ftc_page.page_titles
+        assert 'TriTrim Multipack' in ftc_page.page_titles
+        assert 'SKINCARE' in ftc_page.page_titles
+        assert 'Polyphenol Dark Spot Diminisher' in ftc_page.page_titles
+
+
+
+    pytestrail.case('C164')
+    def test_ftc_products(self, browser, app_config):
+        """
+        Tests each product in this list
+        """
+        ftc_page = FTCPage(driver=browser)
+        ftc_page.go(app_config.base_url_gundrymd)
+        assert True
 
     @pytest.mark.skip
     @pytestrail.case('C206')
@@ -135,8 +169,8 @@ class TestGundryMD:  # Must start with 'Test...'
         assert actual_result == expected_result
 
     @pytestrail.case('C133', 'C135', 'C138')
-    @pytest.mark.parametrize("title, page, quantity", random.sample(PRODUCTS, 1))
-    #@pytest.mark.parametrize("title, page, quantity", PRODUCTS)
+    #@pytest.mark.parametrize("title, page, quantity", random.sample(PRODUCTS, 1))
+    @pytest.mark.parametrize("title, page, quantity", PRODUCTS)
     def test_add_to_cart(self, browser, app_config, title, page, quantity):
         """
         Randomly selects a product, goes to detail page, selects a quantity, notes price, adds to cart,
