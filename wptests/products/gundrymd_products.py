@@ -1,6 +1,6 @@
 PRODUCTS = [
-    ('Total Restore', 'total-restore', '1'),
-    #('Total Restore', '/supplements/total-restore', '3'),  # This test fails WD-2833
+    ('Total Restore', '/supplements/total-restore', '1'),
+    ('Total Restore', '/supplements/total-restore', '3'),
     ('Total Restore', '/supplements/total-restore', '6'),
     ('Vital Reds', '/supplements/vital-reds', '1'),
     ('Vital Reds', '/supplements/vital-reds', '3'),
@@ -18,8 +18,8 @@ PRODUCTS = [
     ('Heart Defense', '/supplements/heart-defense', '3'),
     ('Heart Defense', '/supplements/heart-defense', '6'),
     ('Glucose Defense', '/supplements/glucose-defense', '1'),
-    #('Glucose Defense', '/supplements/glucose-defense', '3'),  # FAILS, missing zeros, has $282 not $282.00
-    ('Glucose Defense', 'glucose-defense', '6'),
+    ('Glucose Defense', '/supplements/glucose-defense', '3'),  # FAILS, missing zeros, has $282 not $282.00
+    ('Glucose Defense', '/supplements/glucose-defense', '6'),
     ('Mediterranean Olive Leaf Extract', '/supplements/mediterranean-olive-leaf-extract', '1'),
     ('Mediterranean Olive Leaf Extract', '/supplements/mediterranean-olive-leaf-extract', '3'),
     ('Mediterranean Olive Leaf Extract', '/supplements/mediterranean-olive-leaf-extract', '6'),
@@ -47,9 +47,9 @@ PRODUCTS = [
     ('VITAMIN D 5000', '/supplements/vitamin-d-5000', '1'),
     ('VITAMIN D 5000', '/supplements/vitamin-d-5000', '3'),
     ('VITAMIN D 5000', '/supplements/vitamin-d-5000', '6'),
-    #('Omega Advanced', '/supplements/omega-advanced', '1'),  # FAILED OUT OF STOCK
-    #('Omega Advanced', '/supplements/omega-advanced', '3'),  # FAILED OUT OF STOCK
-    #('Omega Advanced', '/supplements/omega-advanced', '6'),  # FAILED OUT OF STOCK
+    ('Omega Advanced', '/supplements/omega-advanced', '1'),
+    ('Omega Advanced', '/supplements/omega-advanced', '3'),
+    ('Omega Advanced', '/supplements/omega-advanced', '6'),
     ('Advanced Basil Formula', '/supplements/advanced-basil-formula', '1'),
     ('Advanced Basil Formula', '/supplements/advanced-basil-formula', '3'),
     ('Advanced Basil Formula', '/supplements/advanced-basil-formula', '6'),
@@ -103,6 +103,12 @@ PRODUCTS = [
     ('ProbioClear', '/skincare/probioclear', '3'),
     ('Dark Spot Diminisher', '/skincare/polyphenol-dark-spot-diminisher', '1'),
     ('Dark Spot Diminisher', '/skincare/polyphenol-dark-spot-diminishe', '2'),
-    ('Dark Spot Diminisher', '/skincare/polyphenol-dark-spot-diminishe', '3')
+    ('Dark Spot Diminisher', '/skincare/polyphenol-dark-spot-diminishe', '3'),
+    ('Olive Oil', '/food/olive-oil/', '1'),
+    ('Olive Oil', '/food/olive-oil/', '3'),
+    ('Olive Oil', '/food/olive-oil/', '6'),
+    ('POLYPHENOL PEARLS', '/food/olive-pearls/', '1'),
+    ('POLYPHENOL PEARLS', '/food/olive-pearls/', '3'),
+    ('POLYPHENOL PEARLS', '/food/olive-pearls/', '6')
     #  Note that Food isn't included in this list, it had no price and different qty selectors
 ]
