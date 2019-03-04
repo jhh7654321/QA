@@ -24,7 +24,7 @@ class Header(BasePage):
 
     @property
     def shop_link(self):
-        return self.driver.find_element(By.CSS_SELECTOR, "#top-menu li.menu-item-74929")
+        return self.driver.find_element(By.ID, "menu-item-458339")
 
     @property
     def shop_classic_sub_link(self):
@@ -35,8 +35,8 @@ class Header(BasePage):
         return self.driver.find_element(By.CSS_SELECTOR, "ul.sub-menu li.menu-item-260967")
 
     @property
-    def howtwo_link(self):
-        return self.driver.find_element(By.CSS_SELECTOR, "#top-menu li.menu-item-270830")
+    def how_to_apply_link(self):
+        return self.driver.find_element(By.ID, "menu-item-461865")
 
     @property
     def howto_classic_sub_link(self):
@@ -84,28 +84,10 @@ class HomePage(BasePage):
     def is_on_page(self):
         return "Home - One Two Cosmetics" in self.driver.title
 
-    @property
-    def ftc_first_name_input(self):
-        return self.driver.find_element(By.ID, "home-ftc-name")
-
-    @property
-    def ftc_email_input(self):
-        return self.driver.find_element(By.ID, "home-ftc-email")
-
-    @property
-    def ftc_signup_btn(self):
-        return self.driver.find_element(By.ID, "home-ftc-submit")
-
-    def ftc_signup(self):
-        self.ftc_first_name_input.send_keys("Tester")
-        self.ftc_email_input.send_keys("tester@goldenhippo.com")
-        self.ftc_signup_btn.click()
-
     def test_contact_page_form(self):
         self.ftc_first_name_input.send_keys("Tester")
         self.ftc_email_input.send_keys("tester@goldenhippo.com")
         self.ftc_signup_btn.click()
-
 
 class OurStoryPage(BasePage):
     path = '/our-story/'
@@ -128,11 +110,11 @@ class PressPage(BasePage):
         return "Press - One Two Cosmetics" in self.driver.title
 
 
-class ShopClassicCollectionPage(BasePage):
-    path = '/classic-collection/'
+class ShopPage(BasePage):
+    path = '/shop/'
 
     def is_on_page(self):
-        return "Classic Collection - One Two Cosmetics" in self.driver.title
+        return "Shop | One Two Cosmetics" in self.driver.title
 
     @property
     def product_titles(self):
@@ -173,12 +155,11 @@ class HowTwoClassicPage(BasePage):
         return "How Two - One Two Cosmetics" in self.driver.title
 
 
-class HowTwoAdvancedPage(BasePage):
-    path = '/how-two-full-coverage/'
+class HowToApplyPage(BasePage):
+    path = '/howto/'
 
     def is_on_page(self):
-        print("This is the title I'm seeing: " + self.driver.title)
-        return "How Two Full Coverage - One Two Cosmetics" in self.driver.title
+        return "Choose your How To - One Two Cosmetics" in self.driver.title
 
 
 class TheOTCDifferencePage(BasePage):
@@ -224,20 +205,20 @@ class ProductDetailPage(BasePage):
         except:
             self.quantity_dropdown_advanced.select_by_visible_text(qty)
 
-    @property
-    def add_to_cart_classic_btn(self):
-        return self.driver.find_element(By.LINK_TEXT, "ADD TO CART")  # BLACK FRIDAY
-        #return self.driver.find_element(By.CSS_SELECTOR, ".et_pb_text_inner input.button-dark")
+    #@property
+    #def add_to_cart_classic_btn(self):
+    #    return self.driver.find_element(By.LINK_TEXT, "ADD TO CART")  # BLACK FRIDAY
+    #    #return self.driver.find_element(By.CSS_SELECTOR, ".et_pb_text_inner input.button-dark")
 
     @property
-    def add_to_cart_advanced_btn(self):
-        return self.driver.find_element(By.ID, "add-to-cart")
+    def add_to_cart_btn(self):
+        return self.driver.find_element(By.CSS_SELECTOR, "a.productLink")
 
     def click_addtocart(self):
-        try:
-            self.add_to_cart_classic_btn.click()
-        except:
-            self.add_to_cart_advanced_btn.click()
+        #try:
+        #    self.add_to_cart_classic_btn.click()
+        #except:
+        self.add_to_cart_btn.click()
 
 
 class LoginPage(BasePage):
@@ -257,38 +238,38 @@ class ContactPage(BasePage):
 
     @property
     def form_first_name_input(self):
-        return self.driver.find_element(By.NAME, "first-name")
+        return self.driver.find_element(By.ID, "et_pb_contact_first_name_1")
 
     @property
     def form_last_name_input(self):
-        return self.driver.find_element(By.NAME, "last-name")
+        return self.driver.find_element(By.ID, "et_pb_contact_last_name_1")
 
     @property
     def form_email_input(self):
-        return self.driver.find_element(By.NAME, "your-email")
+        return self.driver.find_element(By.ID, "et_pb_contact_email_1")
 
     @property
     def form_subject_dropdown(self):
-        return Select(self.driver.find_element(By.NAME, "your-subject"))
+        return Select(self.driver.find_element(By.ID, "et_pb_contact_subject_1"))
 
     @property
     def form_message_textarea(self):
-        return self.driver.find_element(By.NAME, "your-message")
+        return self.driver.find_element(By.ID, "et_pb_contact_message_1")
 
     @property
     def form_submit_btn(self):
-        return self.driver.find_element(By.CSS_SELECTOR, ".et_pb_contact_form_container input")
+        return self.driver.find_element(By.CSS_SELECTOR, "button.et_pb_contact_submit")
 
     @property
     def form_success_msg(self):
-        return self.driver.find_element(By.CSS_SELECTOR, "div.wpcf7-response-output").text
+        return self.driver.find_element(By.CSS_SELECTOR, ".et-pb-contact-message p").text
 
     def form_submit(self):
         self.form_first_name_input.send_keys("Test")
         self.form_last_name_input.send_keys("Tester")
-        self.form_email_input.send_keys("tester@goldenhippo.com")
-        self.form_subject_dropdown.select_by_visible_text("6. Other")
+        self.form_email_input.send_keys("tester1@goldenhippo.com")
+        self.form_subject_dropdown.select_by_visible_text("7. Other")
         self.form_message_textarea.send_keys("TESTING... Please ignore.")
         self.form_submit_btn.click()
         # The form takes a few seconds to send so I've added a wait here until I see the message.
-        WebDriverWait(self.driver, 30).until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, 'div.wpcf7-response-output'), "Thank you for your message. It has been sent."))
+        WebDriverWait(self.driver, 30).until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, '.et-pb-contact-message p'), "Your message was sent successfully. One of our Lash Experts will get back to you within 48 hours. Love and Lashes."))
