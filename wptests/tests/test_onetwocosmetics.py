@@ -25,10 +25,8 @@ class TestOneTwoCosmetics:  # Must start with 'Test...'
         Clicks on each link in the header, verifies the next page's title
         """
         header = Header(driver=browser)
-        shop_classic_page = ShopClassicCollectionPage(driver=browser)
-        shop_advanced_page = ShopAdvancedCollectionPage(driver=browser)
-        howtwo_classic_page = HowTwoClassicPage(driver=browser)
-        howtwo_advanced_page = HowTwoAdvancedPage(driver=browser)
+        shop_page = ShopPage(driver=browser)
+        how_to_apply = HowToApplyPage(driver=browser)
         difference_page = TheOTCDifferencePage(driver=browser)
         blog_page = BlogPage(driver=browser)
         press_page =PressPage(driver=browser)
@@ -39,25 +37,14 @@ class TestOneTwoCosmetics:  # Must start with 'Test...'
         # logo
         header.click_on_link(header.logo_link)
         assert header.is_on_page()
-        # shop classic
-        header.hover_over_link(header.shop_link)
-        header.click_on_link(header.shop_classic_sub_link)
-        assert shop_classic_page.is_on_page()
+        # shop
+        header.click_on_link(header.shop_link)
+        #header.click_on_link(header.shop_classic_sub_link)
+        assert shop_page.is_on_page()
         header.go(app_config.base_url_onetwocosmetics)
-        # shop advanced
-        header.hover_over_link(header.shop_link)
-        header.click_on_link(header.shop_advanced_sub_link)
-        assert shop_advanced_page.is_on_page()
-        header.go(app_config.base_url_onetwocosmetics)
-        # how two classic
-        header.hover_over_link(header.howtwo_link)
-        header.click_on_link(header.howto_classic_sub_link)
-        assert howtwo_classic_page.is_on_page()
-        header.go(app_config.base_url_onetwocosmetics)
-        # how two advanced
-        header.hover_over_link(header.howtwo_link)
-        header.click_on_link(header.howto_advanced_sub_link)
-        assert howtwo_advanced_page.is_on_page()
+        # how to apply
+        header.click_on_link(header.how_to_apply_link)
+        assert how_to_apply.is_on_page()
         header.go(app_config.base_url_onetwocosmetics)
         # the OTC difference
         header.click_on_link(header.otc_difference_link)
@@ -75,28 +62,10 @@ class TestOneTwoCosmetics:  # Must start with 'Test...'
         header.click_on_link(header.our_story_link)
         assert our_story_page.is_on_page()
         header.go(app_config.base_url_onetwocosmetics)
-        # cart
-        header.click_on_link(header.cart_link)
-        assert cart_page.is_on_page()
-        header.go(app_config.base_url_onetwocosmetics)
-        # login
-        header.click_on_link(header.login_link)
-        assert login_page.is_on_page()
-        header.go(app_config.base_url_onetwocosmetics)
-
-    @pytestrail.case('')
-    def test_ftc_signup(self, browser, app_config):
-        home_page = HomePage(driver=browser)
-        ftc_page = FTCPage(driver=browser)
-        home_page.go(app_config.base_url_onetwocosmetics)
-        home_page.ftc_signup()
-        assert ftc_page.is_on_page()
-
-    @pytestrail.case('')
-    def test_ftc_continuity(self, browser, app_config):
-        ftc_page = FTCPage(driver=browser)
-        ftc_page.go(app_config.base_url_onetwocosmetics)
-        assert True
+        # cart / Bug WD-4644 - Goes to Woo cart, not 1SC
+        #header.click_on_link(header.cart_link)
+        #assert cart_page.is_on_page()
+        #header.go(app_config.base_url_onetwocosmetics)
 
     @pytestrail.case('')
     def test_blog_pagination(self):
@@ -111,8 +80,7 @@ class TestOneTwoCosmetics:  # Must start with 'Test...'
         contact_page = ContactPage(driver=browser)
         contact_page.go(app_config.base_url_onetwocosmetics)
         contact_page.form_submit()
-        # This test currently fails because it has no success message.
-        assert contact_page.form_success_msg == 'Thank you for your message. It has been sent.'
+        assert contact_page.form_success_msg == 'Your message was sent successfully. One of our Lash Experts will get back to you within 48 hours. Love and Lashes.'
 
     @pytest.mark.skip
     def test_get_products(self, browser, app_config):
@@ -123,7 +91,7 @@ class TestOneTwoCosmetics:  # Must start with 'Test...'
         assert False
 
     @pytestrail.case('', '', '')
-    #pytest.mark.parametrize( "title, page, quantity", random.sample(ONETWOCOSMETICS_PRODUCTS, 1))
+    #@pytest.mark.parametrize( "title, page, quantity", random.sample(PRODUCTS, 1))
     @pytest.mark.parametrize("title, page, quantity", PRODUCTS)
     #@pytest.mark.parametrize("title, page, quantity", [("FOUNDERS's LASH", '/shop/founders-lash/', '3 CASES')])
     def test_add_to_cart(self, browser, app_config, title, page, quantity):
@@ -146,15 +114,11 @@ class TestOneTwoCosmetics:  # Must start with 'Test...'
         assert cart_page.cart_empty_msg.text == 'Your shopping cart is empty.'  # Black Friday
 
     @pytestrail.case('')
-    @pytest.mark.parametrize(
-        "title, page, quantity", [
-            ('Total Restore', 'total-restore', '1'),
-        ]
-    )
+    @pytest.mark.parametrize("title, page, quantity", random.sample(PRODUCTS, 1))
     def test_cart_increase_quantity(elf, browser, app_config, title, page, quantity):
         product_page = ProductDetailPage(driver=browser)
         cart_page = CartPage(driver=browser)
-        url = app_config.base_url_onetwocosmetics + '/supplements/' + page
+        url = app_config.base_url_onetwocosmetics + page
         product_page.go(url)
         product_page.select_quantity(quantity)
         pp_price = product_page.price
