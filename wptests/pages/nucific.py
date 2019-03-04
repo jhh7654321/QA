@@ -92,15 +92,15 @@ class HomePage(BasePage):
 
     @property
     def ftc_first_name_input(self):
-        return self.driver.find_element(By.ID, "home-ftc-name")
+        return self.driver.find_element(By.ID, "contact_fields_first_name")
 
     @property
     def ftc_email_input(self):
-        return self.driver.find_element(By.ID, "home-ftc-email")
+        return self.driver.find_element(By.ID, "contact_fields_email")
 
     @property
     def ftc_signup_btn(self):
-        return self.driver.find_element(By.ID, "home-ftc-submit")
+        return self.driver.find_element(By.ID, "submitButton")
 
     def ftc_signup(self):
         self.ftc_first_name_input.send_keys("Tester")
@@ -169,10 +169,10 @@ class ProductDetailPage(BasePage):
     def is_on_page(self):
         return self.driver.find_element(By.CSS_SELECTOR, "div.product-section div.product")
 
-    #@property
-    #def price(self):
-    #    price = "$" + (self.driver.find_element(By.CSS_SELECTOR, "p span.cPrice")).text
-    #    return price
+    def get_price(self, qty):
+        price = self.driver.find_element(By.XPATH, "//input[@type='radio'][@value='" + qty + "']/parent::label").text
+        print(price)
+        return price
 
     def select_quantity(self, qty):
         radio_btn = self.driver.find_element(By.CSS_SELECTOR, "input[type='radio'][value='" + qty + "']")
@@ -211,10 +211,10 @@ class BooksPage(BasePage):
 
 
 class FTCPage(BasePage):
-    path = '/vitalreds/first_time_customers_offer.php'
+    path = '/first-time-customer-offers/'
 
     def is_on_page(self):
-        return "Vital Reds - Order Page" in self.driver.title
+        return "First Time Customer Offers - Nucific" in self.driver.title
 
     @property
     def yes_agree_input(self):
@@ -227,44 +227,34 @@ class ContactPage(BasePage):
     path = '/contact/'
 
     def is_on_page(self):
-        return "Contact - Nucific | Nucific Customer Service | support@nucific.com" in self.driver.title
+        return "Contact Nucific | Nucific Customer Service | support@nucific.com" in self.driver.title
 
     # Contact Form
 
     @property
     def form_first_name_input(self):
-        return self.driver.find_element(By.NAME, "first-name")
-
-    @property
-    def form_last_name_input(self):
-        return self.driver.find_element(By.NAME, "last-name")
+        return self.driver.find_element(By.ID, "et_pb_contact_name_1")
 
     @property
     def form_email_input(self):
-        return self.driver.find_element(By.NAME, "your-email")
-
-    @property
-    def form_subject_dropdown(self):
-        return Select(self.driver.find_element(By.NAME, "your-subject"))
+        return self.driver.find_element(By.ID, "et_pb_contact_email_1")
 
     @property
     def form_message_textarea(self):
-        return self.driver.find_element(By.NAME, "your-message")
+        return self.driver.find_element(By.ID, "et_pb_contact_message_1")
 
     @property
     def form_submit_btn(self):
-        return self.driver.find_element(By.CSS_SELECTOR, ".et_pb_contact_form_container input")
+        return self.driver.find_element(By.CSS_SELECTOR, "button.et_pb_contact_submit")
 
     @property
     def form_success_msg(self):
-        return self.driver.find_element(By.CSS_SELECTOR, "div.wpcf7-response-output").text
+        return self.driver.find_element(By.CSS_SELECTOR, ".et-pb-contact-message p").text
 
     def form_submit(self):
         self.form_first_name_input.send_keys("Test")
-        self.form_last_name_input.send_keys("Tester")
         self.form_email_input.send_keys("tester@goldenhippo.com")
-        self.form_subject_dropdown.select_by_visible_text("6. Other")
         self.form_message_textarea.send_keys("TESTING... Please ignore.")
         self.form_submit_btn.click()
         # The form takes a few seconds to send so I've added a wait here until I see the message.
-        WebDriverWait(self.driver, 30).until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, 'div.wpcf7-response-output'), "Thank you for your message. It has been sent."))
+        WebDriverWait(self.driver, 30).until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, '.et-pb-contact-message p'), "Thank you for contacting us. We'll be in touch shortly."))
