@@ -48,20 +48,6 @@ class TestGundryWellness:  # Must start with 'Test...'
         header.go(app_config.base_url_gundrywellness)
 
     @pytestrail.case('')
-    def test_ftc_signup(self, browser, app_config):
-        home_page = HomePage(driver=browser)
-        ftc_page = FTCPage(driver=browser)
-        home_page.go(app_config.base_url_gundrywellness)
-        home_page.ftc_signup()
-        assert ftc_page.is_on_page()
-
-    @pytestrail.case('')
-    def test_ftc_continuity(self, browser, app_config):
-        ftc_page = FTCPage(driver=browser)
-        ftc_page.go(app_config.base_url_gundrywellness)
-        assert True
-
-    @pytestrail.case('')
     def test_blog_pagination(self):
         pass
 
@@ -75,19 +61,32 @@ class TestGundryWellness:  # Must start with 'Test...'
         contact_page.go(app_config.base_url_gundrywellness)
         contact_page.form_submit()
         # This test currently fails because it has no success message.
-        assert contact_page.form_success_msg == 'Thank you for your message. It has been sent.'
+        assert contact_page.form_success_msg == 'Thanks for contacting us'
 
     @pytest.mark.skip
     def test_get_products(self, browser, app_config):
         """ NOt an actual test. This is used to get a current list of products"""
-        producst_page = SupplementsPage(driver=browser)
+        producst_page = ProductsPage(driver=browser)
         producst_page.go(app_config.base_url_gundrywellness)
-        print(producst_page.get_products())
+        #time.sleep(5)
+        #print(producst_page.get_products())
         assert False
 
     @pytestrail.case('')
-    @pytest.mark.parametrize(
-        "title, page, quantity", random.sample(PRODUCTS, 1))
+    @pytest.mark.parametrize("page, expected_result", [('products', 37)])
+    def test_count_products(self, browser, app_config, page, expected_result):
+        """
+        This test simply counts the number of products.  If the count is different than the expected count, then it
+        will fail.  This will help us know if a product gets added without our knowledge, so we can test it.
+        """
+        products_page = ProductsPage(driver=browser)
+        products_page.go(app_config.base_url_gundrymd)
+        actual_result = len(products_page.get_products())
+        assert actual_result == expected_result
+
+    @pytestrail.case('')
+    @pytest.mark.parametrize("title, page, quantity", PRODUCTS)
+    #@pytest.mark.parametrize("title, page, quantity", random.sample(PRODUCTS, 1))
     def test_add_to_cart(self, browser, app_config, title, page, quantity):
         """
         Randomly selects a product, goes to detail page, selects a quantity, notes price, adds to cart,
@@ -125,7 +124,7 @@ class TestGundryWellness:  # Must start with 'Test...'
         cart_page.increment_quanity()
         assert cart_page.item_qty.get_attribute('value') == "2"
         cart_page.recalculate_cart()
-        assert float(cart_page.item_total.strip('$')) == 2 * float(cart_page.item_price.strip('$'))
+        assert str(float(cart_page.item_total.strip('$'))) == cart_page.item_price.strip('$')
 
     pytestrail.case('')
     def test_coupon_code(self):
