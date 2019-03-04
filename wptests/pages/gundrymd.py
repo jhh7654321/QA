@@ -42,7 +42,7 @@ class Header(BasePage):
 
     @property
     def food_link(self):
-        return self.driver.find_element(By.ID, "menu-item-128237")
+        return self.driver.find_element(By.LINK_TEXT, "FOOD")
 
     @property
     def books_link(self):
@@ -198,7 +198,7 @@ class FoodPage(BasePage):
     path = '/food2/'
 
     def is_on_page(self):
-        return "Food - Gundry MD" in self.driver.title
+        return "Food Archive - Gundry MD" in self.driver.title
 
     @property
     def product_titles(self):
@@ -227,11 +227,19 @@ class VipPage(BasePage):
 
 
 class FTCPage(BasePage):
-    path = '/vitalreds/first_time_customers_offer.php'
+    path = '/first-time-customer-vip/'
 
     def is_on_page(self):
         """Verifies that the hardcoded text "HOME - Gundry MD" appears in page title"""
-        return "Vital Reds - Order Page" in self.driver.title
+        return "First Time Customer VIP - Gundry MD" in self.driver.title
+
+    @property
+    def page_titles(self):
+        titles_list =  self.driver.find_elements(By.CSS_SELECTOR, "div.et_pb_text_inner h1")
+        title_string = []
+        for title in titles_list:
+            title_string.append(title.text)
+        return title_string
 
     @property
     def yes_agree_input(self):
@@ -286,3 +294,45 @@ class ContactPage(BasePage):
         self.form_submit_btn.click()
         # The form takes a few seconds to send so I've added a wait here until I see the message.
         WebDriverWait(self.driver, 30).until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, 'div.wpcf7-response-output'), "Thank you for your message. It has been sent."))
+
+
+# Classic
+class PrelanderPage1(BasePage):
+    path = ''
+
+    def is_on_page(self):
+        return "Gundry MD" in self.driver.title
+
+    @property
+    def some_element(self):
+        return self.driver.find_element(By.CSS_SELECTOR, "")
+
+class VSLPage1(BasePage):
+    path = ''
+
+    def is_on_page(self):
+        return "Gundry MD" in self.driver.title
+
+    @property
+    def some_element(self):
+        return self.driver.find_element(By.CSS_SELECTOR, "")
+
+class AssessmentPage1(BasePage):
+    path = ''
+
+    def is_on_page(self):
+        return "Gundry MD" in self.driver.title
+
+    @property
+    def some_element(self):
+        return self.driver.find_element(By.CSS_SELECTOR, "")
+
+class OrderPage1(BasePage):
+    path = ''
+
+    def is_on_page(self):
+        return self.driver.find_element(By.CSS_SELECTOR, "div") # basically anything
+
+    @property
+    def quantity_6_btn(self):
+        return self.driver.find_element(By.CSS_SELECTOR, "div.jar-grey.grey2.jar")
