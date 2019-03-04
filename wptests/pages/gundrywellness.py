@@ -51,23 +51,6 @@ class HomePage(BasePage):
     def is_on_page(self):
         return "Home" in self.driver.title
 
-    @property
-    def ftc_first_name_input(self):
-        return self.driver.find_element(By.ID, "home-ftc-name")
-
-    @property
-    def ftc_email_input(self):
-        return self.driver.find_element(By.ID, "home-ftc-email")
-
-    @property
-    def ftc_signup_btn(self):
-        return self.driver.find_element(By.ID, "home-ftc-submit")
-
-    def ftc_signup(self):
-        self.ftc_first_name_input.send_keys("Tester")
-        self.ftc_email_input.send_keys("tester@goldenhippo.com")
-        self.ftc_signup_btn.click()
-
     def test_contact_page_form(self):
         self.ftc_first_name_input.send_keys("Tester")
         self.ftc_email_input.send_keys("tester@goldenhippo.com")
@@ -85,7 +68,7 @@ class AmbassadorLoginPage(BasePage):
     path = '/ambassador-area/'
 
     def is_on_page(self):
-        return "Ambassador Area - Gundry Wellness" in self.driver.title
+        return "Ambassador Portal - Gundry Wellness" in self.driver.title
 
 
 class BlogPage(BasePage):
@@ -166,34 +149,28 @@ class ContactPage(BasePage):
 
     @property
     def form_first_name_input(self):
-        return self.driver.find_element(By.NAME, "first-name")
-
-    @property
-    def form_last_name_input(self):
-        return self.driver.find_element(By.NAME, "last-name")
+        return self.driver.find_element(By.ID, "et_pb_contact_name_1")
 
     @property
     def form_email_input(self):
-        return self.driver.find_element(By.NAME, "your-email")
+        return self.driver.find_element(By.ID, "et_pb_contact_email_1")
 
     @property
     def form_message_textarea(self):
-        return self.driver.find_element(By.NAME, "your-message")
+        return self.driver.find_element(By.ID, "et_pb_contact_message_1")
 
     @property
     def form_submit_btn(self):
-        return self.driver.find_element(By.CSS_SELECTOR, ".et_pb_contact_form_container input")
+        return self.driver.find_element(By.CSS_SELECTOR, "button.et_pb_contact_submit")
 
     @property
     def form_success_msg(self):
-        return self.driver.find_element(By.CSS_SELECTOR, "div.wpcf7-response-output").text
+        return self.driver.find_element(By.CSS_SELECTOR, "div.et-pb-contact-message p").text
 
     def form_submit(self):
         self.form_first_name_input.send_keys("Test")
-        self.form_last_name_input.send_keys("Tester")
         self.form_email_input.send_keys("tester@goldenhippo.com")
-        self.form_subject_dropdown.select_by_visible_text("6. Other")
         self.form_message_textarea.send_keys("TESTING... Please ignore.")
         self.form_submit_btn.click()
         # The form takes a few seconds to send so I've added a wait here until I see the message.
-        WebDriverWait(self.driver, 30).until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, 'div.wpcf7-response-output'), "Thank you for your message. It has been sent."))
+        WebDriverWait(self.driver, 30).until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, 'div.et-pb-contact-message p'), "Thanks for contacting us"))
