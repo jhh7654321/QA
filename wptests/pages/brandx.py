@@ -89,12 +89,12 @@ class ProductDetailPage(BasePage):
 
     @property
     def price(self):
-        price = self.driver.find_element(By.CSS_SELECTOR, "p.price span.woocommerce-Price-amount.amount").text
+        price = self.driver.find_element(By.CSS_SELECTOR, "p.price span.woocommerce-Price-amount").text
         return price
 
     @property
     def quantity_input(self):
-        return self.driver.find_element(By.CSS_SELECTOR, "div.quantity input.input-text")
+        return self.driver.find_element(By.CSS_SELECTOR, ".quantity input")
 
 
     def set_quantity(self, qty):
@@ -120,37 +120,33 @@ class ContactPage(BasePage):
 
     @property
     def form_first_name_input(self):
-        return self.driver.find_element(By.NAME, "first-name")
-
-    @property
-    def form_last_name_input(self):
-        return self.driver.find_element(By.NAME, "last-name")
+        return self.driver.find_element(By.ID, "et_pb_contact_name_1")
 
     @property
     def form_email_input(self):
-        return self.driver.find_element(By.NAME, "your-email")
+        return self.driver.find_element(By.ID, "et_pb_contact_email_1")
 
     @property
     def form_message_textarea(self):
-        return self.driver.find_element(By.NAME, "your-message")
+        return self.driver.find_element(By.ID, "et_pb_contact_message_1")
 
     @property
     def form_submit_btn(self):
-        return self.driver.find_element(By.CSS_SELECTOR, ".et_pb_contact_form_container input")
+        return self.driver.find_element(By.CLASS_NAME, "et_pb_contact_submit")
 
     @property
     def form_success_msg(self):
-        return self.driver.find_element(By.CSS_SELECTOR, "div.wpcf7-response-output").text
+        return self.driver.find_element(By.CSS_SELECTOR, ".et-pb-contact-message").text
 
     def form_submit(self):
         self.form_first_name_input.send_keys("Test")
-        self.form_last_name_input.send_keys("Tester")
+        #self.form_last_name_input.send_keys("Tester")
         self.form_email_input.send_keys("tester@goldenhippo.com")
-        self.form_subject_dropdown.select_by_visible_text("6. Other")
+        #self.form_subject_dropdown.select_by_visible_text("6. Other")
         self.form_message_textarea.send_keys("TESTING... Please ignore.")
         self.form_submit_btn.click()
         # The form takes a few seconds to send so I've added a wait here until I see the message.
-        WebDriverWait(self.driver, 30).until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, 'div.wpcf7-response-output'), "Thank you for your message. It has been sent."))
+        WebDriverWait(self.driver, 30).until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, '.et-pb-contact-message'), "Thanks for contacting us"))
 
 class LoginPage(BasePage):
     path = '/wp-login.php'
