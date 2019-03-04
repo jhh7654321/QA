@@ -1,6 +1,6 @@
 
 class Config:
-    def __init__(self, env):
+    def __init__(self, env, emulation):
 
         # Browserstack or local
         SUPPORTED_BROWSER_LOCATIONS = ['local','bs']
@@ -8,6 +8,11 @@ class Config:
         #if browserlocation.lower() not in SUPPORTED_BROWSER_LOCATIONS:
         #    raise Exception(f'{browserlocation} is not a supported browser location (Supported locations: {SUPPORTED_BROWSER_LOCATIONS})')
         #self.browserlocation = browserlocation
+
+        # Test emulation
+        SUPPORTED_EMULATIONS = ['mobile', 'desktop']
+        if env.lower() not in SUPPORTED_EMULATIONS:
+            raise Exception(f'{emulation} is not a supported environment (Supported emulations: {SUPPORTED_EMULATIONS})')
 
         # Test env, dev, prod, stage...
         SUPPORTED_ENVS = ['dev', 'prod', 'stage']
@@ -45,4 +50,16 @@ class Config:
             'dev': 'https://staging.gundrymd.com',
             'stage': 'https://staging.gundrymd.com',
             'prod': 'https://gundrymd.com'
+        }[env]
+
+        self.base_url_activatedyou = {
+            'dev': 'https://staging.activatedyou.com',
+            'stage': 'https://staging.activatedyou.com',
+            'prod': 'https://activatedyou.com'
+        }[env]
+
+        self.base_url_netsuite = {
+            'dev': 'https://system.netsuite.com/app/center/card.nl?sc=-18&whence=',
+            'stage': 'https://system.netsuite.com/app/center/card.nl?sc=-18&whence=',
+            'prod': 'https://system.netsuite.com/app/center/card.nl?sc=-18&whence='
         }[env]
