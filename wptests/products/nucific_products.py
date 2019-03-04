@@ -1,3 +1,4 @@
+# Product Count: 11
 PRODUCTS = [
     ("BIO X4", '/products/bio-x4/', '1'),
     ('BIO X4', '/products/bio-x4/', '3'),
@@ -28,5 +29,8 @@ PRODUCTS = [
     ('Nucific Digest', '/products/nucific-digest/', '6'),
     ('Bone Broth', '/products/bone-broth/', '1'),
     ('Bone Broth', '/products/bone-broth/', '3'),
-    ('Bone Broth', '/products/bone-broth/', '6')
+    ('Bone Broth', '/products/bone-broth/', '6'),
+    ('Advanced Slimming Probiotic', '/products/advanced-slimming-probiotic/', '1'),
+    ('Advanced Slimming Probiotic', '/products/advanced-slimming-probiotic/', '3'),
+    ('Advanced Slimming Probiotic', '/products/advanced-slimming-probiotic/', '6')
 ]
