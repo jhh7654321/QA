@@ -47,20 +47,6 @@ class TestBrandX:  # Must start with 'Test...'
         header.go(app_config.base_url_brandx)
 
     @pytestrail.case('')
-    def test_ftc_signup(self, browser, app_config):
-        home_page = HomePage(driver=browser)
-        ftc_page = FTCPage(driver=browser)
-        home_page.go(app_config.base_url_brandx)
-        home_page.ftc_signup()
-        assert ftc_page.is_on_page()
-
-    @pytestrail.case('C206')
-    def test_ftc_continuity(self, browser, app_config):
-        ftc_page = FTCPage(driver=browser)
-        ftc_page.go(app_config.base_url_brandx)
-        assert True
-
-    @pytestrail.case('')
     def test_blog_pagination(self):
         pass
 
@@ -74,7 +60,8 @@ class TestBrandX:  # Must start with 'Test...'
         contact_page.go(app_config.base_url_brandx)
         contact_page.form_submit()
         # This test currently fails because it has no success message.
-        assert contact_page.form_success_msg == 'Thank you for your message. It has been sent.'
+        contact_page.form_success_msg
+        assert contact_page.form_success_msg == 'Thanks for contacting us'
 
     @pytest.mark.skip
     def test_get_products(self, browser, app_config):
@@ -85,8 +72,8 @@ class TestBrandX:  # Must start with 'Test...'
         assert False
 
     @pytestrail.case('', '', '')
-    #@pytest.mark.parametrize("title, page, quantity", random.sample(PRODUCTS, 1))
-    @pytest.mark.parametrize("title, page, quantity", PRODUCTS)
+    @pytest.mark.parametrize("title, page, quantity", random.sample(PRODUCTS, 1))
+    #@pytest.mark.parametrize("title, page, quantity", PRODUCTS)
     def test_add_to_cart(self, browser, app_config, title, page, quantity):
         """
         Randomly selects a product, goes to detail page, selects a quantity, notes price, adds to cart,
@@ -105,23 +92,19 @@ class TestBrandX:  # Must start with 'Test...'
         assert cart_page.cart_empty_msg.text == 'Your cart is currently empty.', "Cart isn't empty!"
 
     @pytestrail.case('')
-    @pytest.mark.parametrize(
-        "title, page, quantity", [
-            ('Total Restore', 'total-restore', '1'),
-        ]
-    )
+    @pytest.mark.parametrize("title, page, quantity", [('Vital Reds', 'vital-reds', '1'),])
     def test_cart_increase_quantity(elf, browser, app_config, title, page, quantity):
         product_page = ProductDetailPage(driver=browser)
         cart_page = CartPage(driver=browser)
-        url = app_config.base_url_brandx + '/supplements/' + page
+        url = app_config.base_url_brandx + '/product/' + page
         product_page.go(url)
-        product_page.select_quantity(quantity)
+        product_page.set_quantity(2)
         pp_price = product_page.price
         product_page.click_addtocart()
         cart_page.increment_quanity()
-        assert cart_page.item_qty.get_attribute('value') == "2"
+        assert cart_page.item_qty.get_attribute('value') == "3"
         cart_page.recalculate_cart()
-        assert float(cart_page.item_total.strip('$')) == 2 * float(cart_page.item_price.strip('$'))
+        assert str(float(cart_page.item_total.strip('$'))) == cart_page.item_price.strip('$')
 
     pytestrail.case('')
     def test_coupon_code(self):
