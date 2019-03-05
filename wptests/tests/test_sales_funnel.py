@@ -14,8 +14,8 @@ from ..pages.sf_order_page import *
 
 
 # Settings
-BRAND = "whole body research"
-PRODUCT_NAME = "Keybiotics"
+BRAND = "Dr Marty Pets"
+PRODUCT_NAME = "Nature's Blend"
 
 HAS_CONTINUITY = False
 VIDEO_CTA_POP_TIME = 1250  # In seconds
@@ -24,7 +24,7 @@ CONTAINER_TYPES = ['bottle', 'jar', 'bag']
 
 PRELANDER_URL = ""
 VSL_URL = ""
-ORDER_PAGE_URL = "https://wholebodyresearch.com/p_specials/keybiotics_190309.php"
+ORDER_PAGE_URL = "https://drmartypets.com/CSUpsell_VSL.php"
 
 @pytest.fixture
 def my_messages():
